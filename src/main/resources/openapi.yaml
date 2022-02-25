@@ -1,0 +1,54 @@
+# For some reason openAPI 3.1.0 isn't rendering components. Ignoring for now (see application properties).
+openapi: 3.1.0
+info:
+  title: Generated LCS API
+  description: Service interface for retrieving the Longest Common Substring in a Set of Strings.
+  version: "1.0"
+tags:
+  - name: LCS
+    description: Retrieve longest common substrings
+paths:
+  /lcs:
+    post:
+      tags:
+        - LCS
+      summary: Returns a JSON object containing unique Longest Common Substrings.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetOfStrings'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LCSResponse'
+        '400':
+          description: Request failed constraint violations (empty request body, malformed JSON, or empty values array.
+        '422':
+          description: Request is syntactically correct, but semantically incorrect (ie. Request is not a Set).
+components:
+  schemas:
+    LCSResponse:
+      type: object
+      properties:
+        lcs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Value'
+    Value:
+      type: object
+      properties:
+        value:
+          type: string
+    SetOfStrings:
+      type: object
+      properties:
+        setOfStrings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Value'
+
+
